@@ -1,2 +1,2 @@
 # Kommu
-Document Verification Component
+
