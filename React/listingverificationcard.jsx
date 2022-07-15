@@ -17,13 +17,11 @@ function ListVerCard(props) {
     return (
         <div className="col-md-3" >
             <div className="card" onClick={onLocalLiVerClicked}>
-                {/* id={aListing.listing.id}  */}
                 <div className="card-body">
                     <div className="col-md-4" style={{ width: '259px' }}>
                         <img className="card-img-top" src={aListing.listing.housingImages[0].url} alt="..." />
                     </div>
                     <div className="card-title">{aListing.listing.title}</div>
-                    {/* <div className="card-subtitle">{aLiVer.url}</div> */}
                     <div className="card-text">{aListing.listing.shortDescription}</div>
                 </div>
             </div>
