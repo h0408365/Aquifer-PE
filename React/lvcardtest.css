@@ -1,0 +1,21 @@
+.card {
+    outline-color: black;
+    outline-width: medium;
+    box-shadow: 1px 8px 20px black;
+    background: #eee;
+    border: 1px solid transparent;
+}
+
+.col-md-3 {
+    place-content: center;
+}
+
+.card:hover {
+    background: #e1e1e1;
+    border: .5px solid rgb(186, 178, 178);
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+}
