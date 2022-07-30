@@ -1,0 +1,30 @@
+#license-verification-wrapper .products-container {
+    height: auto;
+}
+
+#button-upload .button {
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.header-font {
+    margin: 0;
+    font-family: Montserrat;
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+}
+
+.body-font {
+    margin: 0;
+    font-family: Montserrat;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+
+}
