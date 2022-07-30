@@ -3,7 +3,6 @@ import { Table, Button, Form } from 'react-bootstrap'
 import FileUploader from '../../components/fileUploader/FileUploader'
 import './licenseverification.css'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-//import { toast } from 'react-toastify';
 import * as licenseVerificationService from '../../services/licenseVerificationService'
 
 import debug from 'sabio-debug';
@@ -119,7 +118,6 @@ function LicenseVerification() {
                                     1. Please confirm that the information below in the table is correctly populated. If it
                                     is not, please reach out to us through the help form.
                                 </div>
-                                {/* <span className="text-muted justify-content-center "></span> */}
                                 <div className="py-1">
                                     2. You will need to submit a license with the following information on it:{' '}
                                     <b>License Number</b>,{' '}
