@@ -159,40 +159,10 @@ function LicenseVerification() {
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>License Type</th>
-                                            <th>License Number</th>
-                                            <th>State</th>
                                             <th className="text-center" >License</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td className="text-center">
-                                                <a
-                                                    href={formData.licenseTypesId}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer">
-                                                    {formData.licenseTypesId}
-                                                </a>
-                                            </td>
-                                            <td className="text-center">
-                                                <a
-                                                    href={formData.proofOfResidenceUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer">
-                                                    {formData.proofOfResidenceUrl}
-                                                </a>
-                                            </td>
-                                            <td className="text-center">
-                                                <a
-                                                    href={formData.proofOfResidenceUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer">
-                                                    {formData.proofOfResidenceUrl}
-                                                </a>
-                                            </td>
-
                                             <td className="text-center">
                                                 <a
                                                     href={formData.url}
