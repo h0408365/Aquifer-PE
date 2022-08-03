@@ -1,4 +1,4 @@
-﻿using Sabio.Data;
+using Sabio.Data;
 using Sabio.Data.Providers;
 using Sabio.Models.Domain;
 using Sabio.Models.Domain.LicenseVerification;
@@ -116,8 +116,10 @@ namespace Sabio.Services.LicenseVerification
 
 
             userLicense.Id = reader.GetInt32(startingIndex++);
+            userLicense.LicenseTypesId = reader.GetInt32(startingIndex++);
             userLicense.LicenseType = _lookUp.MapSingleLookUp(reader, ref startingIndex);
 
+            userLicense.UserId = reader.GetInt32(startingIndex++);
             userLicense.UserProfile = new UserProfile();
             userLicense.UserProfile.Id = reader.GetInt32(startingIndex++); 
             userLicense.UserProfile.UserId = reader.GetInt32(startingIndex++);
@@ -133,8 +135,8 @@ namespace Sabio.Services.LicenseVerification
             userLicense.UserProfile.YearsOfExperience = reader.GetString(startingIndex++);
             userLicense.UserProfile.DesiredHourlyRate = reader.GetString(startingIndex++);
             userLicense.UserProfile.IsActive = reader.GetBoolean(startingIndex++);
-           
 
+            userLicense.LocationsId = reader.GetInt32(startingIndex++);
             userLicense.Location = new Location();
             userLicense.Location.Id = reader.GetInt32(startingIndex++);
             userLicense.Location.LocationType = _lookUp.MapSingleLookUp(reader, ref startingIndex);
@@ -145,6 +147,7 @@ namespace Sabio.Services.LicenseVerification
             userLicense.Location.Latitude = reader.GetSafeDouble(startingIndex++);
             userLicense.Location.Longitude = reader.GetSafeDouble(startingIndex++);
 
+            userLicense.LicenseStateId = reader.GetInt32(startingIndex++);
             userLicense.State = new State();
             userLicense.State.Id = reader.GetInt32(startingIndex++);    
             userLicense.State.Code = reader.GetString(startingIndex++);
