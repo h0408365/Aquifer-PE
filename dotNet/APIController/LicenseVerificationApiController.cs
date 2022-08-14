@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sabio.Models.Domain.LicenseVerification;
 using Sabio.Models.Requests.LicenseVerification;
@@ -11,11 +11,11 @@ using System.Collections.Generic;
 
 namespace Sabio.Web.Api.Controllers.LicenseVerification
 {
-    [Route("api/verifylicense")]
+    [Route("api/licenses")]
     [ApiController]
     public class LicenseVerificationApiController : BaseApiController
     {
-        private ILicenseVerificationService _service = null;
+        private ILicenseVerificationService _service = null; 
         private IAuthenticationService<int> _authService = null;
 
         public LicenseVerificationApiController(ILicenseVerificationService service, ILogger<PingApiController> logger, IAuthenticationService<int> authentication) : base(logger)
@@ -25,7 +25,7 @@ namespace Sabio.Web.Api.Controllers.LicenseVerification
         }
 
         #region - SelectbyUserLicenseId -
-        [HttpGet("{id:int}")]
+        [HttpGet("verify/{id:int}")]
         public ActionResult<ItemResponse<UserLicense>> SelectbyUserLicenseId(int id)
         {
             int code = 200;
@@ -40,6 +40,29 @@ namespace Sabio.Web.Api.Controllers.LicenseVerification
                 base.Logger.LogError(ex.ToString());
                 response = new ErrorResponse($"Internal Server Error; there was an issue with the server {ex.Message}");
             }
+            return StatusCode(code, response);
+        }
+        #endregion
+
+        #region - Update -
+        [HttpPut("verify/{id:int}")]
+        public ActionResult<SuccessResponse> Update(LicenseVerificationUpdateRequest model, int id)
+        {
+            int code = 200;
+            int userId = _authService.GetCurrentUserId();
+            BaseResponse response = null;
+            try
+            {
+                _service.Update(model, id);
+                response = new SuccessResponse();
+            }
+
+            catch (Exception ex)
+            {
+                code = 500;
+                response = new ErrorResponse($"Generic Error {ex.Message}");
+            }
+
             return StatusCode(code, response);
         }
         #endregion
@@ -96,28 +119,7 @@ namespace Sabio.Web.Api.Controllers.LicenseVerification
         }
         #endregion
 
-        #region - Update -
-        [HttpPut("{id:int}")]
-        public ActionResult<SuccessResponse> Update(LicenseVerificationUpdateRequest model, int id)
-        {
-            int code = 200;
-            int userId = _authService.GetCurrentUserId();
-            BaseResponse response = null;
-            try
-            {
-                _service.Update(model, id);
-                response = new SuccessResponse();
-            }
-
-            catch (Exception ex)
-            {
-                code = 500;
-                response = new ErrorResponse($"Generic Error {ex.Message}");
-            }
-
-            return StatusCode(code, response);
-        }
-        #endregion
+        
 
     }
 }
