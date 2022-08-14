@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { Table, Button, Form } from 'react-bootstrap'
 import FileUploader from '../../components/fileUploader/FileUploader'
-import './licenseverification.css'
+import './LicenseVerification.css'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import * as licenseVerificationService from '../../services/licenseVerificationService'
+import PropTypes from 'prop-types';
+
 
 import debug from 'sabio-debug';
 const _logger = debug.extend('UserLocationVerification');
 
-function LicenseVerification() {
+function LicenseVerification(props) {
     const [userLicenseSelected, updateUserLicenseSelected] = useState(false);
     const [licenseTypeSelected, updateLicenseTypeSelected] = useState(false);
     const [licenseTypeForUpload, updateLicenseTypeForUpload] = useState({});
@@ -24,15 +26,9 @@ function LicenseVerification() {
     })
 
     const onUserClicked = () => {
-        licenseVerificationService
-            .selectbyUserLicenseId(12)
+        licenseVerificationService.selectbyUserLicenseId(props.currentUser.id)
             .then(onGetUserLicenseSuccess)
             .catch(onGetUserLicenseError);
-        if (userLicenseSelected === false) {
-            updateUserLicenseSelected(!userLicenseSelected);
-        }
-        else updateUserLicenseSelected(!userLicenseSelected);
-
     }
 
     const onGetUserLicenseSuccess = (data) => {
@@ -45,7 +41,7 @@ function LicenseVerification() {
         })
     }
 
-    const onLicenseTypeClicked = (e) => {
+    const onClickToUpload = (e) => {
         if (e.target.value !== 'Please select a license to upload') {
             updateLicenseTypeForUpload(e.target.value);
             if (licenseTypeSelected === false) {
@@ -58,9 +54,7 @@ function LicenseVerification() {
     const onHandleUploadSuccess = (data) => {
         _logger('File Upload Success')
         const currentRecord = formData;
-        debugger;
         currentRecord[licenseTypeForUpload] = data.items[0].url;
-        debugger;
         licenseVerificationService
             .update(currentRecord, formData.id)
             .then(onRecordUpdateSuccess)
@@ -74,7 +68,6 @@ function LicenseVerification() {
             .then(onGetUserLicenseSuccess)
             .catch(onGetUserLicenseError);
     }
-
     const onRecordUpdateError = (error) => {
         _logger("An error occured locating this user's location verification records", error);
         return error;
@@ -86,7 +79,7 @@ function LicenseVerification() {
     };
     return (
         <React.Fragment>
-            <div className="container" >
+            <div id="license-verification-heading-wrapper" >
                 <div className="row">
                     <h1 className="container text-center header-font" style={{ marginTop: "130px", marginBottom: "5px" }}>
                         Verification
@@ -99,7 +92,7 @@ function LicenseVerification() {
                     </label>
                 </div>
 
-                <div id="button-upload" className="text-center"
+                <div id="capture-user-button-upload" className="text-center"
                     style={{ marginBottom: "20px" }}>
                     <Button className="button" onClick={onUserClicked}>
                         <MdOutlineKeyboardArrowDown size="33px" /> Click here to continue with Verification
@@ -111,7 +104,7 @@ function LicenseVerification() {
                             <div className="col-md-8 offset-md-2">
                                 <div className="py-1">
                                     {' '}
-                                    <b> Thank you for applying to join CNM Pro - you are almost there! There are a few steps
+                                    <b> Thank you for applying to join Aquifer PE - you are almost there! There are a few steps
                                         you need to follow: </b>
                                 </div>
                                 <div className="py-1">
@@ -125,25 +118,18 @@ function LicenseVerification() {
                                     <b>expiration date of the license</b>.
                                 </div>
                                 <div>
-                                    3. Please select one of the license types from the dropdown menu. Then click the
+                                    3. Please select one of the document types from the dropdown menu. Then click the
                                     file uploader where indicated. Or click and drag that file where indicated.
                                 </div>
                                 <div>
-                                    4. Confirm that your license has populated in the table. The next process is that we have to
-                                    verify your license so employers can reach out to you. <b>Thank you for your patience</b>.
+                                    4. Confirm that your document has populated in the table. The next process is that we have to
+                                    verify your document so employers can reach out to you. <b>Thank you for your patience</b>.
                                 </div>
                             </div>
                             <div className="dropdown-file-type py-1 col-md-8 offset-md-2">
-                                <Form.Select aria-label="Default select example" onChange={onLicenseTypeClicked}>
-                                    <option>Please select a license to upload</option>
-                                    <option value="url">Civil Engineer</option>
-                                    <option value="url">Structural Engineer</option>
-                                    <option value="url">Geotechnical Engineer</option>
-                                    <option value="url">Mechanical Engineer</option>
-                                    <option value="url">Electrical Engineer</option>
-                                    <option value="url">Architect Engineer</option>
-                                    <option value="url">Landscape Engineer</option>
-                                    <option value="url">Traffic Engineer</option>
+                                <Form.Select aria-label="Default select example" onChange={onClickToUpload}>
+                                    <option>Please select document to upload</option>
+                                    <option value="url">License</option>
                                 </Form.Select>
                             </div>
                             <div className='col-md-8 offset-md-2' >
@@ -158,11 +144,13 @@ function LicenseVerification() {
                                 < Table striped bordered hover size="sm" style={{ paddingTop: '50px' }}>
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th className="text-center">#</th>
                                             <th className="text-center" >License</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <tr>
+                                            <td className="text-center">1</td>
                                             <td className="text-center">
                                                 <a
                                                     href={formData.url}
@@ -183,5 +171,14 @@ function LicenseVerification() {
         </React.Fragment >
     )
 }
+
+LicenseVerification.propTypes = {
+    currentUser: PropTypes.shape({
+        id: PropTypes.number,
+        roles: PropTypes.arrayOf(PropTypes.string),
+        email: PropTypes.string,
+        isLoggedIn: PropTypes.bool.isRequired,
+    }),
+};
 
 export default LicenseVerification
