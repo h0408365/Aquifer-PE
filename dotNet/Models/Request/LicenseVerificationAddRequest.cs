@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,8 +12,6 @@ namespace Sabio.Models.Requests.LicenseVerification
         [Required]
         public int LicenseTypesId { get; set; }
         [Required]
-        public int UserId { get; set; }
-        [Required]
         public int LocationsId { get; set; }
         [Required]
         public int LicenseStateId { get; set; }
@@ -21,6 +19,6 @@ namespace Sabio.Models.Requests.LicenseVerification
         public string Url { get; set; }
         [Required]
         public int DateExpires { get; set; }
-        public int ModifiedBy { get; set; }
+       
     }
 }
