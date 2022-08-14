@@ -29,6 +29,54 @@ namespace Sabio.Services.LicenseVerification
             
         }
 
+        #region - SelectbyUnexpiredLicenseType -
+        public List<UserLicense> SelectbyUnexpiredLicenseType(int LicenseTypeId, int DateExpires)
+        {
+            string procName = "[dbo].[LicenseVerification_GetBy_UnexpiredLicenseType]";
+            List<UserLicense> list = null;
+            _data.ExecuteCmd(procName,
+                delegate (SqlParameterCollection inputParams)
+                {
+                    inputParams.AddWithValue("@LicenseTypeId", LicenseTypeId);
+                    inputParams.AddWithValue("@DateExpires", DateExpires);
+                },
+                singleRecordMapper: delegate (IDataReader reader, short set)
+                {
+                    int startingIndex = 0;
+                    UserLicense aUserLicense = MapUserLicenseData(reader, ref startingIndex);
+
+                    if (list == null)
+                    {
+                        list = new List<UserLicense>();
+                    }
+                    list.Add(aUserLicense);
+                });
+            return list;
+        }
+        #endregion
+
+        #region - Create -
+        public int Create(LicenseVerificationAddRequest model)
+        {
+            int id = 0;
+            string procName = "[dbo].[LicenseVerification_Create]";
+            _data.ExecuteNonQuery(procName,
+                delegate (SqlParameterCollection col)
+                {
+                    AddCommonParams(model, col); 
+                    SqlParameter idOut = new SqlParameter("@Id", SqlDbType.Int); 
+                    idOut.Direction = ParameterDirection.Output;
+                    col.Add(idOut);
+                },
+                returnParameters: delegate (SqlParameterCollection returnCollection)
+                {
+                    object oId = returnCollection["@Id"].Value;
+                    int.TryParse(oId.ToString(), out id); 
+                });
+            return id;
+        }
+        #endregion
+
         #region - SelectbyUserLicenseId -
         public UserLicense SelectbyUserLicenseId(int Id)
         {
