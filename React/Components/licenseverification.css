@@ -2,13 +2,13 @@
     height: auto;
 }
 
-#button-upload .button {
+#capture-user-button-upload .button {
     border: none;
     cursor: pointer;
     overflow: hidden;
 }
 
-.header-font {
+#license-verification-heading-wrapper .header-font {
     margin: 0;
     font-family: Montserrat;
     font-size: 50px;
@@ -18,7 +18,7 @@
     text-align: left;
 }
 
-.body-font {
+#license-verification-heading-wrapper .body-font {
     margin: 0;
     font-family: Montserrat;
     font-size: 1rem;
